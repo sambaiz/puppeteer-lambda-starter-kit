@@ -1,6 +1,6 @@
-# puppeteer-lambda-boilerplate
+# Puppeteer Lambda Starter Kit
 
-Boilerplate for running Headless-Chrome by [Puppeteer](https://github.com/GoogleChrome/puppeteer) on AWS Lambda.
+Starter Kit for running Headless-Chrome by [Puppeteer](https://github.com/GoogleChrome/puppeteer) on AWS Lambda.
 
 ## Run on local
 
@@ -32,4 +32,4 @@ Once you build it, link to `headless_shell.tar.gz` in `chrome` dir.
 
 ## Article
 
-[Lambda上でPuppeteer/Headless Chromeを動かすBoilerplateを作った - sambaiz-net](https://www.sambaiz.net/article/132/)
+[Lambda上でPuppeteer/Headless Chromeを動かすStarter Kitを作った - sambaiz-net](https://www.sambaiz.net/article/132/)
