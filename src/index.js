@@ -3,21 +3,22 @@ const puppeteer = require('puppeteer'),
       util = require('./util');
 
 exports.handler = async (event, context, callback) => {
-  run().then(
+  exports.run({
+    headless: true,
+    chromePath: await util.setupChrome()
+  }).then(
     (result) => { callback(null, result); }
   ).catch(
     (err)    => { callback(err); }
   )
 }
 
-
-const run = async () => {
-
-  const chromePath = await util.setupChrome();
+exports.run = async (option) => {
 
   const browser = await puppeteer.launch({
-    headless: true,
-    executablePath: chromePath,
+    headless: option.headless,
+    executablePath: option.chromePath,
+    slowMo: option.slowMoMs,
     args: config.launchOptionForLambda,
     dumpio: !!util.DEBUG,
   });  
