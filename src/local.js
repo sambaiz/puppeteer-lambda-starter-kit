@@ -5,7 +5,7 @@ index.run({
     slowMoMs: 250,
     // use chrome installed by puppeteer
 }).then(
-    (result) => { console.log(result); }
+    (result) => console.log(result)
 ).catch(
-    (err)    => { console.error(err); }
+    (err) => console.error(err)
 );

@@ -1,10 +1,11 @@
 {
   "scripts": {
-    "package": "npm run package-ready && cp chrome/headless_shell.tar.gz dist && cd dist && zip -rq ../package.zip .",
-    "package-nochrome": "npm run package-ready && zip -rq ../package.zip .",
-    "package-ready": "npm run babel && cp -r package.json dist && cd dist && PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm install --production",
+    "package": "npm run package-prepare && cp chrome/headless_shell.tar.gz dist && cd dist && zip -rq ../package.zip .",
+    "package-nochrome": "npm run package-prepare && zip -rq ../package.zip .",
+    "package-prepare": "npm run lint && npm run babel && cp -r package.json dist && cd dist && PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm install --production",
     "babel": "rm -rf dist && mkdir dist && ./node_modules/.bin/babel src --out-dir dist",
-    "local": "npm run babel && cp -r node_modules dist && node dist/local.js"
+    "local": "npm run babel && cp -r node_modules dist && node dist/local.js",
+    "lint": "./node_modules/.bin/eslint src"
   },
   "dependencies": {
     "puppeteer": "^0.10.2",
@@ -13,6 +14,8 @@
   "devDependencies": {
     "aws-sdk": "^2.111.0",
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.0"
+    "babel-preset-env": "^1.6.0",
+    "eslint": "^4.6.1",
+    "eslint-config-google": "^0.9.1"
   }
 }
