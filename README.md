@@ -1,4 +1,4 @@
-# puppteeer-lambda-boilerplate
+# puppeteer-lambda-boilerplate
 
 Boilerplate for running Headless-Chrome by [Puppeteer](https://github.com/GoogleChrome/puppeteer) on AWS Lambda.
 
