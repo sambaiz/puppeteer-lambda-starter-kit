@@ -1,8 +1,9 @@
-const index = require('./index');
+const index = require('../index');
 
 index.run({
     headless: false,
-    slowMoMs: 250,
+    slowMo: 250,
+    dumpio: !!util.DEBUG,
     // use chrome installed by puppeteer
 }).then(
     (result) => console.log(result)

@@ -4,7 +4,7 @@
     "package-nochrome": "npm run package-prepare && zip -rq ../package.zip .",
     "package-prepare": "npm run lint && npm run babel && cp -r package.json dist && cd dist && PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm install --production",
     "babel": "rm -rf dist && mkdir dist && ./node_modules/.bin/babel src --out-dir dist",
-    "local": "npm run babel && cp -r node_modules dist && node dist/local.js",
+    "local": "npm run babel && cp -r node_modules dist && node dist/starter-kit/local.js",
     "lint": "./node_modules/.bin/eslint src"
   },
   "dependencies": {
