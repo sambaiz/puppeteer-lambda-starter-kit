@@ -2,6 +2,10 @@
 
 Starter Kit for running Headless-Chrome by [Puppeteer](https://github.com/GoogleChrome/puppeteer) on AWS Lambda.
 
+```
+$ git clone -o starter-kit https://github.com/sambaiz/puppeteer-lambda-starter-kit.git your_project_name
+```
+
 ## Run on local
 
 By executing `npm run local`, you can check the operation while actually viewing the chrome. (non-headless, slowmo)
