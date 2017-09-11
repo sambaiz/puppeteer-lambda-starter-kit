@@ -1,4 +1,5 @@
 const index = require('../index');
+const util = require('./util');
 
 index.run({
     headless: false,
