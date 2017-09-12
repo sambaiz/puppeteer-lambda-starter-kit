@@ -3,7 +3,7 @@ const util = require('./util');
 
 index.run({
     headless: false,
-    slowMo: 250,
+    slowMo: process.env.SLOWMO_MS,
     dumpio: !!util.DEBUG,
     // use chrome installed by puppeteer
 }).then(

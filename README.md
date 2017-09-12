@@ -8,7 +8,7 @@ $ git clone -o starter-kit https://github.com/sambaiz/puppeteer-lambda-starter-k
 
 ## Run on local
 
-By executing `npm run local`, you can check the operation while actually viewing the chrome. (non-headless, slowmo)
+By executing `SLOWMO_MS=250 npm run local`, you can check the operation while actually viewing the chrome (non-headless, slowmo).
 
 ## Packaging & Deploy
 
