@@ -1,4 +1,4 @@
-const CHROME_BUCKET = process.env.CHORME_BUCKET;
+const CHROME_BUCKET = process.env.CHROME_BUCKET;
 const CHROME_KEY = process.env.CHROME_KEY || 'headless_shell.tar.gz';
 const aws = require('aws-sdk');
 const s3 = new aws.S3({apiVersion: '2006-03-01'});
@@ -48,7 +48,6 @@ const existsExecutableChrome = () => {
 
 const setupLocalChrome = () => {
     return new Promise((resolve, reject) => {
-      console.log(localChromePath);
       fs.createReadStream(localChromePath)
       .on('error', (err) => reject(err))
       .pipe(tar.x({
