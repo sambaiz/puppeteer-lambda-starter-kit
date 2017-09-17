@@ -1,38 +1,43 @@
-const CHROME_BUCKET = process.env.CHROME_BUCKET;
-const CHROME_KEY = process.env.CHROME_KEY || 'headless_shell.tar.gz';
 const aws = require('aws-sdk');
 const s3 = new aws.S3({apiVersion: '2006-03-01'});
 const fs = require('fs');
 const tar = require('tar');
-const path = require('path');
+const puppeteer = require('puppeteer');
+const config = require('./config');
 
-const localChromePath = path.join('headless_shell.tar.gz');
-const setupChromePath = path.join(path.sep, 'tmp');
+exports.getBrowser = (() => {
+  let browser;
+  return async () => {
+    if (typeof browser === 'undefined') {
+      await setupChrome();
+      browser = await puppeteer.launch({
+        headless: true,
+        executablePath: config.executablePath,
+        args: config.launchOptionForLambda,
+        dumpio: !!exports.DEBUG,
+      });
+      debugLog(`launch done: ${await browser.version()}`);
+    }
+    return browser;
+  };
+})();
 
-exports.DEBUG = process.env.DEBUG;
-
-exports.setupChrome = async () => {
+const setupChrome = async () => {
   if (!await existsExecutableChrome()) {
     if (await existsLocalChrome()) {
-      exports.debugLog('setup local chrome');
+      debugLog('setup local chrome');
       await setupLocalChrome();
     } else {
-      exports.debugLog('setup s3 chrome');
+      debugLog('setup s3 chrome');
       await setupS3Chrome();
     }
-    exports.debugLog('setup done');
+    debugLog('setup done');
   }
-  return executablePath;
 };
-
-const executablePath = path.join(
-  setupChromePath,
-  'headless_shell'
-);
 
 const existsLocalChrome = () => {
   return new Promise((resolve, reject) => {
-    fs.exists(localChromePath, (exists) => {
+    fs.exists(config.localChromePath, (exists) => {
       resolve(exists);
     });
   });
@@ -40,7 +45,7 @@ const existsLocalChrome = () => {
 
 const existsExecutableChrome = () => {
   return new Promise((resolve, reject) => {
-    fs.exists(executablePath, (exists) => {
+    fs.exists(config.executablePath, (exists) => {
       resolve(exists);
     });
   });
@@ -48,10 +53,10 @@ const existsExecutableChrome = () => {
 
 const setupLocalChrome = () => {
     return new Promise((resolve, reject) => {
-      fs.createReadStream(localChromePath)
+      fs.createReadStream(config.localChromePath)
       .on('error', (err) => reject(err))
       .pipe(tar.x({
-        C: setupChromePath,
+        C: config.setupChromePath,
       }))
       .on('error', (err) => reject(err))
       .on('end', () => resolve());
@@ -60,18 +65,21 @@ const setupLocalChrome = () => {
 
 const setupS3Chrome = () => {
     return new Promise((resolve, reject) => {
-      const params = {Bucket: CHROME_BUCKET, Key: CHROME_KEY};
+      const params = {
+        Bucket: config.remoteChromeS3Bucket,
+        Key: config.remoteChromeS3Key,
+      };
       s3.getObject(params)
       .createReadStream()
       .on('error', (err) => reject(err))
       .pipe(tar.x({
-        C: setupChromePath,
+        C: config.setupChromePath,
       }))
       .on('error', (err) => reject(err))
       .on('end', () => resolve());
     });
 };
 
-exports.debugLog = (log) => {
-    if (exports.DEBUG) console.log(log);
+const debugLog = (log) => {
+    if (config.DEBUG) console.log(log);
 };

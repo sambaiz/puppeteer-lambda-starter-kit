@@ -1,28 +1,19 @@
-const puppeteer = require('puppeteer');
-const config = require('./starter-kit/config');
-const util = require('./starter-kit/util');
+const setup = require('./starter-kit/setup');
 
 exports.handler = async (event, context, callback) => {
-  exports.run({
-    headless: true,
-    executablePath: await util.setupChrome(),
-    args: config.launchOptionForLambda,
-    dumpio: !!util.DEBUG,
-  }).then(
+  // For keeping the browser launch
+  context.callbackWaitsForEmptyEventLoop = false;
+  const browser = await setup.getBrowser();
+  exports.run(browser).then(
     (result) => callback(null, result)
   ).catch(
     (err) => callback(err)
   );
 };
 
-exports.run = async (launchOption) => {
-  const browser = await puppeteer.launch(launchOption);
-
-  util.debugLog(`Chrome launched, version ${await browser.version()}`);
-
+exports.run = async (browser) => {
   const page = await browser.newPage();
   await page.goto('https://www.google.co.jp');
-  browser.close();
-
+  await page.close();
   return 'done';
 };

@@ -1,13 +1,17 @@
+process.env.LOCAL = 1;
 const index = require('../index');
-const util = require('./util');
+const config = require('./config');
+const puppeteer = require('puppeteer');
 
-index.run({
-    headless: false,
-    slowMo: process.env.SLOWMO_MS,
-    dumpio: !!util.DEBUG,
-    // use chrome installed by puppeteer
-}).then(
-    (result) => console.log(result)
-).catch(
-    (err) => console.error(err)
-);
+(async () => {
+    const browser = await puppeteer.launch({
+        headless: false,
+        slowMo: process.env.SLOWMO_MS,
+        dumpio: !!config.DEBUG,
+        // use chrome installed by puppeteer
+    });
+    await index.run(browser)
+    .then((result) => console.log(result))
+    .catch((err) => console.error(err));
+    await browser.close();
+})();

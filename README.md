@@ -12,7 +12,12 @@ By executing `SLOWMO_MS=250 npm run local`, you can check the operation while ac
 
 ## Packaging & Deploy
 
-Lambda's memory is set to 384 MB or more.
+Lambda's memory needs to be set to at least 384 MB, but the more memory, the better the performance of any operations.
+
+```
+512MB -> goto(youtube): 6.481s
+1536MB(Max) -> goto(youtube): 2.154s
+```
 
 ### chrome in package (recommended)
 
@@ -29,6 +34,8 @@ Run `npm run package-nochrome`, deploy the package.zip, and set following env va
 - `CHROME_KEY`(optional): S3 key. default: `headless_shell.tar.gz`
 
 ## Build Headless-Chrome (optional)
+
+This kit includes Chrome built by myself because official build Chrome installed by Puppeteer has problems about running on Lambda (missing shared library etc.).
 
 If you want to use latest chrome, run chrome/buildChrome.sh on EC2 having at least 16GB memory and 30GB volume. 
 See also [serverless-chrome](https://github.com/adieuadieu/serverless-chrome/blob/master/chrome/README.md).
