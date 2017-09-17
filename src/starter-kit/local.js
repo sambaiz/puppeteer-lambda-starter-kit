@@ -1,4 +1,3 @@
-process.env.LOCAL = 1;
 const index = require('../index');
 const config = require('./config');
 const puppeteer = require('puppeteer');
