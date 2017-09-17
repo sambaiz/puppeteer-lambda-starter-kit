@@ -8,7 +8,7 @@ const config = require('./config');
 exports.getBrowser = (() => {
   let browser;
   return async () => {
-    if (typeof browser === 'undefined') {
+    if (typeof browser === 'undefined' || !await isBrowserAvailable(browser)) {
       await setupChrome();
       browser = await puppeteer.launch({
         headless: true,
@@ -16,11 +16,21 @@ exports.getBrowser = (() => {
         args: config.launchOptionForLambda,
         dumpio: !!exports.DEBUG,
       });
-      debugLog(`launch done: ${await browser.version()}`);
+      debugLog(async (b) => `launch done: ${await browser.version()}`);
     }
     return browser;
   };
 })();
+
+const isBrowserAvailable = async (browser) => {
+  try {
+    await browser.version();
+  } catch (e) {
+    debugLog(e); // not opened etc.
+    return false;
+  }
+  return true;
+};
 
 const setupChrome = async () => {
   if (!await existsExecutableChrome()) {
@@ -52,34 +62,40 @@ const existsExecutableChrome = () => {
 };
 
 const setupLocalChrome = () => {
-    return new Promise((resolve, reject) => {
-      fs.createReadStream(config.localChromePath)
-      .on('error', (err) => reject(err))
-      .pipe(tar.x({
-        C: config.setupChromePath,
-      }))
-      .on('error', (err) => reject(err))
-      .on('end', () => resolve());
-    });
+  return new Promise((resolve, reject) => {
+    fs.createReadStream(config.localChromePath)
+    .on('error', (err) => reject(err))
+    .pipe(tar.x({
+      C: config.setupChromePath,
+    }))
+    .on('error', (err) => reject(err))
+    .on('end', () => resolve());
+  });
 };
 
 const setupS3Chrome = () => {
-    return new Promise((resolve, reject) => {
-      const params = {
-        Bucket: config.remoteChromeS3Bucket,
-        Key: config.remoteChromeS3Key,
-      };
-      s3.getObject(params)
-      .createReadStream()
-      .on('error', (err) => reject(err))
-      .pipe(tar.x({
-        C: config.setupChromePath,
-      }))
-      .on('error', (err) => reject(err))
-      .on('end', () => resolve());
-    });
+  return new Promise((resolve, reject) => {
+    const params = {
+      Bucket: config.remoteChromeS3Bucket,
+      Key: config.remoteChromeS3Key,
+    };
+    s3.getObject(params)
+    .createReadStream()
+    .on('error', (err) => reject(err))
+    .pipe(tar.x({
+      C: config.setupChromePath,
+    }))
+    .on('error', (err) => reject(err))
+    .on('end', () => resolve());
+  });
 };
 
 const debugLog = (log) => {
-    if (config.DEBUG) console.log(log);
+  if (config.DEBUG) {
+    let message = log;
+    if (typeof log === 'function') message = log();
+    Promise.resolve(message).then(
+      (message) => console.log(message)
+    );
+  }
 };
