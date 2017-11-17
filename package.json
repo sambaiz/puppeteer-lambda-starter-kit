@@ -1,4 +1,7 @@
 {
+  "name": "puppeteer-lambda-starter-kit",
+  "version": "0.9.4",
+  "description": "Starter Kit for running Headless-Chrome by Puppeteer on AWS Lambda",
   "scripts": {
     "package": "npm run package-prepare && cp chrome/headless_shell.tar.gz dist && cd dist && zip -rq ../package.zip .",
     "package-nochrome": "npm run package-prepare && cd dist && zip -rq ../package.zip .",
