@@ -2,8 +2,24 @@
 
 Starter Kit for running Headless-Chrome by [Puppeteer](https://github.com/GoogleChrome/puppeteer) on AWS Lambda.
 
+It can use alone and also supported [Serverless Framework](https://github.com/serverless/serverless).
+
+## Download
+
+### Use alone
+
+This is simple and don't need IAM role but you have to deploy package by yourself. Don't worry, even if you will become to use Serverless in the future, what you should do for migration is little.
+
 ```
 $ git clone -o starter-kit https://github.com/sambaiz/puppeteer-lambda-starter-kit.git your_project_name
+```
+
+### Use with Serverless Framework
+
+Serverless Framework can manage settings with CloudFormation and deploy.
+
+```
+$ serverless install --url https://github.com/sambaiz/puppeteer-lambda-starter-kit --name your_project_name
 ```
 
 ## Run on local
@@ -16,12 +32,14 @@ Lambda's memory needs to be set to at least 384 MB, but the more memory, the bet
 
 ```
 512MB -> goto(youtube): 6.481s
-1536MB(Max) -> goto(youtube): 2.154s
+1536MB -> goto(youtube): 2.154s
 ```
 
 ### chrome in package (recommended)
 
-Run `npm run package`, and deploy the package.zip.
+If you use alone, run `npm run package`, and deploy the package.zip. 
+
+If you use with Serverless, run `serverless deploy` (this runs `npm run package` when packaging).
 
 ### chrome NOT in package
 
