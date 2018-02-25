@@ -19,6 +19,7 @@
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "eslint": "^4.6.1",
-    "eslint-config-google": "^0.9.1"
+    "eslint-config-google": "^0.9.1",
+    "serverless-hooks-plugin": "^1.1.0"
   }
 }
