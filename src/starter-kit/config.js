@@ -9,14 +9,14 @@ const launchOptionForLambda = [
     '--single-process',
 ];
 
-const localChromePath = path.join('headless_shell.tar.gz');
+const localChromePath = path.join('headless-chromium.tar.gz');
 const remoteChromeS3Bucket = process.env.CHROME_BUCKET;
-const remoteChromeS3Key = process.env.CHROME_KEY || 'headless_shell.tar.gz';
+const remoteChromeS3Key = process.env.CHROME_KEY || 'headless-chromium.tar.gz';
 
 const setupChromePath = path.join(path.sep, 'tmp');
 const executablePath = path.join(
     setupChromePath,
-    'headless_shell'
+    'headless-chromium'
 );
 
 const DEBUG = process.env.DEBUG;

@@ -49,15 +49,13 @@ In that case, put Chrome in S3 and download it at container startup so startup t
 Run `npm run package-nochrome`, deploy the package.zip, and set following env valiables on Lambda.
 
 - `CHROME_BUCKET`(required): S3 bucket where Chrome is put
-- `CHROME_KEY`(optional): S3 key. default: `headless_shell.tar.gz`
+- `CHROME_KEY`(optional): S3 key. default: `headless-chromium.tar.gz`
 
-## Build Headless-Chrome (optional)
+## Build Headless Chromium (optional)
 
-This kit includes Chrome built by myself because official build Chrome installed by Puppeteer has problems about running on Lambda (missing shared library etc.).
+This kit includes Chromium built using [serverless-chrome](https://github.com/adieuadieu/serverless-chrome)'s [ec2-build.sh](https://github.com/adieuadieu/serverless-chrome/blob/master/docs/chrome.md#with-aws-ec2) script because official build Chrome installed by Puppeteer has problems about running on Lambda (missing shared library etc.).
 
-If you want to use latest chrome, run chrome/buildChrome.sh on EC2 having at least 16GB memory and 30GB volume. 
-See also [serverless-chrome](https://github.com/adieuadieu/serverless-chrome/blob/master/chrome/README.md).
-Once you build it, link to `headless_shell.tar.gz` in `chrome` dir.
+If you want to use own build, link to `headless-chromium.tar.gz` in `chrome` dir.
 
 ## Article
 
