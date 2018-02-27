@@ -3,7 +3,7 @@
   "version": "0.9.4",
   "description": "Starter Kit for running Headless-Chrome by Puppeteer on AWS Lambda",
   "scripts": {
-    "package": "npm run package-prepare && cp chrome/headless_shell.tar.gz dist && cd dist && zip -rq ../package.zip .",
+    "package": "npm run package-prepare && cp chrome/headless-chromium.tar.gz dist && cd dist && zip -rq ../package.zip .",
     "package-nochrome": "npm run package-prepare && cd dist && zip -rq ../package.zip .",
     "package-prepare": "npm run lint && npm run babel && cp -r package.json dist && cd dist && PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm install --production",
     "babel": "rm -rf dist && mkdir dist && ./node_modules/.bin/babel src --out-dir dist",
@@ -11,7 +11,7 @@
     "lint": "./node_modules/.bin/eslint src"
   },
   "dependencies": {
-    "puppeteer": "^0.10.2",
+    "puppeteer": "^1.1.1",
     "tar": "^4.0.1"
   },
   "devDependencies": {
