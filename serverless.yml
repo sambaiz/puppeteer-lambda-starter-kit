@@ -5,10 +5,18 @@ provider:
   runtime: nodejs6.10
   memorySize: 1536
   timeout: 180
+  # if needed (e.g. upload snapshot)
+  # iamRoleStatements:
+  #  -  Effect: "Allow"
+  #     Action:
+  #       - "s3:PutObject"
+  #     Resource: "arn:aws:s3:::<bucket name>/*"  
 
 functions:
   test-function:
     handler: index.handler
+    environment:
+      DEBUG: 0
 
 package:
   artifact: ./package.zip

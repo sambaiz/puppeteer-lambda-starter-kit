@@ -56,7 +56,7 @@ Run `npm run package-nochrome`, deploy the package.zip, and set following env va
 This kit includes Chrome built by myself because official build Chrome installed by Puppeteer has problems about running on Lambda (missing shared library etc.).
 
 If you want to use latest chrome, run chrome/buildChrome.sh on EC2 having at least 16GB memory and 30GB volume. 
-See also [serverless-chrome](https://github.com/adieuadieu/serverless-chrome/blob/master/chrome/README.md).
+See also [serverless-chrome](https://github.com/adieuadieu/serverless-chrome/blob/master/docs/chrome.md).
 Once you build it, link to `headless_shell.tar.gz` in `chrome` dir.
 
 ## Article
