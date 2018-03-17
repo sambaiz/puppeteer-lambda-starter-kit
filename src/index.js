@@ -23,7 +23,7 @@ exports.run = async (browser) => {
   await page.type('#lst-ib', 'aaaaa');
   // avoid to timeout waitForNavigation() after click()
   await Promise.all([
-    // avoid to 
+    // avoid to
     // 'Cannot find context with specified id undefined' for localStorage
     page.waitForNavigation(),
     page.click('[name=btnK]'),
