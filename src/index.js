@@ -55,5 +55,8 @@ exports.run = async (browser) => {
     return localStorage.getItem('name');
   }));
   await page.close();
-  return 'done';
+  
+  return JSON.stringify({
+    success: true,
+  });
 };
