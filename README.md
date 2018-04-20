@@ -68,7 +68,7 @@ Amazon provider docker image in dokcer store ,it can build Lambda environment fo
 - docker  [https://docs.docker.com/install/]
 - docker-compose [https://docs.docker.com/compose/install/#master-builds]
 2. setup aws credentials in `.aws` folder
-3. `docker-compose up`
+3. `docker-compose up --build`
 4. `docker-compose exec lambda-env bash`
 5. `cd /start-kit`
 6. `npm install `
