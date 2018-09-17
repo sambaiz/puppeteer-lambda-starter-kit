@@ -1,0 +1,10 @@
+version: "3"
+services:
+  lambda-env:
+    build: .
+    image:  startkit/aws-lambda-env-2018:latest
+    command:  node
+    volumes:
+      - ./:/start-kit
+    stdin_open: true
+    tty: true  

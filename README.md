@@ -59,6 +59,21 @@ If you want to use latest chrome, run chrome/buildChrome.sh on EC2 having at lea
 See also [serverless-chrome](https://github.com/adieuadieu/serverless-chrome/blob/master/docs/chrome.md).
 Once you build it, link to `headless_shell.tar.gz` in `chrome` dir.
 
+## Build Lambda environment by docker (optional)
+
+Amazon provider docker image in dokcer store ,it can build Lambda environment for test 
+[https://store.docker.com/images/amazonlinux]
+
+1. install docker & docker-compose 
+- docker  [https://docs.docker.com/install/]
+- docker-compose [https://docs.docker.com/compose/install/#master-builds]
+2. setup aws credentials in `.aws` folder
+3. `docker-compose up --build`
+4. `docker-compose exec lambda-env bash`
+5. `cd /start-kit`
+6. `npm install `
+7. start to test
+
 ## Article
 
 [Lambda上でPuppeteer/Headless Chromeを動かすStarter Kitを作った - sambaiz-net](https://www.sambaiz.net/article/132/)
