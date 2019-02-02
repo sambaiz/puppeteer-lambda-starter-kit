@@ -21,7 +21,7 @@ exports.run = async (browser) => {
   );
   console.log((await page.content()).slice(0, 500));
 
-  await page.type('#lst-ib', 'aaaaa');
+  await page.type('input[name="q"]', 'aaaaa');
   // avoid to timeout waitForNavigation() after click()
   await Promise.all([
     // avoid to
