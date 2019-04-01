@@ -1,15 +1,10 @@
 const setup = require('./starter-kit/setup');
 
-exports.handler = async (event, context, callback) => {
-  // For keeping the browser launch
-  context.callbackWaitsForEmptyEventLoop = false;
+// this handler signature requires AWS Lambda Nodejs v8.1
+exports.handler = async (event, context) => {
   const browser = await setup.getBrowser();
-  try {
-    const result = await exports.run(browser);
-    callback(null, result);
-  } catch (e) {
-    callback(e);
-  }
+
+  return await exports.run(browser);
 };
 
 exports.run = async (browser) => {
@@ -21,14 +16,23 @@ exports.run = async (browser) => {
   );
   console.log((await page.content()).slice(0, 500));
 
-  await page.type('#lst-ib', 'aaaaa');
+  await page.type('input[name=q]', 'aaaaa');
   // avoid to timeout waitForNavigation() after click()
   await Promise.all([
     // avoid to
     // 'Cannot find context with specified id undefined' for localStorage
     page.waitForNavigation(),
-    page.click('[name=btnK]'),
+
+    // puppeteer v1.3.0 seems to have a problem with SVG buttons
+    // when using page.click() it errors with ""
+    // see: https://github.com/GoogleChrome/puppeteer/issues/2977
+    // a workaround is to execute the click in the browser
+    //
+    // page.click("input[name=btnK]"),
+    page.evaluate(() => document.querySelector('input[name=btnK]').click()),
   ]);
+
+  console.log(`page url after search: ${page.url()}`);
 
 /* screenshot
   await page.screenshot({path: '/tmp/screenshot.png'});
