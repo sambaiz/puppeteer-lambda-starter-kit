@@ -1,15 +1,10 @@
 const setup = require('./starter-kit/setup');
 
-exports.handler = async (event, context, callback) => {
-  // For keeping the browser launch
-  context.callbackWaitsForEmptyEventLoop = false;
+// this handler signature requires AWS Lambda Nodejs v8.1
+exports.handler = async (event, context) => {
   const browser = await setup.getBrowser();
-  try {
-    const result = await exports.run(browser);
-    callback(null, result);
-  } catch (e) {
-    callback(e);
-  }
+
+  return await exports.run(browser);
 };
 
 exports.run = async (browser) => {
