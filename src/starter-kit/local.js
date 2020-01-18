@@ -1,13 +1,20 @@
 const index = require('../index');
 const config = require('./config');
-const puppeteer = require('puppeteer');
+const chromium = require('chrome-aws-lambda');
 
 (async () => {
-    const browser = await puppeteer.launch({
-        headless: false,
+    // when running locally, chrome-aws-lambda will use the full puppeteer
+    // that is included in the devDependencies
+    // see: https://github.com/alixaxel/chrome-aws-lambda/wiki/HOWTO:-Local-Development
+
+    const browser = await chromium.puppeteer.launch({
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath,
+        headless: chromium.headless,
+
         slowMo: process.env.SLOWMO_MS,
         dumpio: !!config.DEBUG,
-        // use chrome installed by puppeteer
     });
     await index.run(browser)
     .then((result) => console.log(result))
